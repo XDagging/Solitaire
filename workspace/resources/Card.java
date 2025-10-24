@@ -24,11 +24,14 @@ public class Card extends JPanel{
 		private BufferedImage backImage;
 		boolean isReversed;
 		Point positionOffset;
-		
+
+		private static final int preferedHeight = 150;
+		private static final int preferedWidth = 80;
 		/**
 		 * Enum to store the suit values
 		 */
 		public enum Suit {
+
 			Spades(1, false),
 			Hearts(2, true),
 			Diamonds(3, true),
@@ -49,10 +52,10 @@ public class Card extends JPanel{
 		 */
 		public static String valueString(int value) {
 								
-			if(value == 11) return "J";
-			if(value == 12) return "Q";
-			if(value == 13) return "K";
-			if(value == 1) return "A";
+			if(value == 11) return "j";
+			if(value == 12) return "q";
+			if(value == 13) return "k";
+			if(value == 1) return "a";
 			
 			// Value between 2 and 10
 			return Integer.toString(value);
@@ -99,19 +102,31 @@ public class Card extends JPanel{
 			
 			try {
 				// Load the image for the current file
+				String faceFileName = this.toString() + ".png";
 				URL url = getClass().getResource(this.toString() +".png");
-				image = ImageIO.read(url);
-				//System.out.println(url);
-				URL urlback = getClass().getResource("back.png"); 
-				backImage = ImageIO.read(urlback);
+				if (url != null) {
+					image = ImageIO.read(url);
+			
+                    // throw new IOException("Error: Card image file not found: " + faceFileName);
+                } else {
+					isReversed = true;
 				
-				setBounds(0, 0, image.getWidth(), image.getHeight());
+				}
+					URL urlback = getClass().getResource("back.png"); 
+					backImage = ImageIO.read(urlback);
+
+			
+				//System.out.println(url);
+				
+				
+				setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+				// setBounds(0, 0, image.getWidth(), image.getHeight());
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
 			
 			positionOffset = new Point(0,0);
-			setSize(new Dimension(100, 145));
+			// setSize(new Dimension(100, 145));
 			setOpaque(false);
 		}
 		
@@ -127,6 +142,13 @@ public class Card extends JPanel{
 		 */
 		public void show() {
 			isReversed = false;
+		}
+
+		public int getPreferredHeight() {
+			return preferedHeight;
+		}
+		public int getPreferredWidth() {
+			return preferedWidth;
 		}
 		
 		@Override
