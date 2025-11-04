@@ -83,24 +83,34 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		playerCards.add(new JLabel("Your Cards"));
 
 		//hit and stand buttons
-		playerCards.add(new JButton("Hit"));
-	   	playerCards.add(new JButton("Stand"));
-		playerCards.setBorder(playerCardBorder);
+		JButton hitButton = new JButton("Hit");
+
+	   	hitButton.addActionListener(e -> {
+			System.out.println("this button was clicked");
+			game.startGame();
+		});
 
 		
+
+		playerCards.add(hitButton);
+	   	playerCards.add(new JButton("Stand"));
+		
+		playerCards.setBorder(playerCardBorder);
+
 	
-// 	   JButton x = new JButton("click here to start game");
+	   JButton x = new JButton("Click here to start the gane");
+		gameDeck.add(x);
+		x.addActionListener(e -> {
+		  	System.out.println("this button was");
+			game.gameHasStarted = true;
+            game.startGame();
+			this.remove(x);
+			this.revalidate();
+			this.repaint();
+		
+		});
 
-// 		x.addActionListener(e -> {
-// // The "if" check is technically redundant since this listener
-//           // is only attached to 'x', but it doesn't hurt.
-// 		  	System.out.println("this button was");
-//             game.startGame();
-// 			this.remove(x);
-// 		});
-
-// 		this.add(x);
-       this.setVisible(true);
+       	this.setVisible(true);
     }
 
 	//draws a pile of cards based on a stack

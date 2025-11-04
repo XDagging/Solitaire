@@ -13,6 +13,7 @@ public class Solitaire {
 	ArrayList<Card> dealerHand;
 	ArrayList<Card> playerHand;
 	private boolean playerWon; 
+	public boolean gameHasStarted = false;
 
 	public Solitaire() {
 		// initialize queues as linked lists
