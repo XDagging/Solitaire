@@ -74,6 +74,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		gameDeck.add(drawPile(testDeck)); //placeholder card
 		gameDeck.setBorder(deckBorder);
 
+
+
 	    //player cards
 		Border playerCardBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
 		JPanel playerCards = new JPanel();
@@ -92,6 +94,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 
 		
 
+		
+
 		playerCards.add(hitButton);
 	   	playerCards.add(new JButton("Stand"));
 		
@@ -104,7 +108,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		  	System.out.println("this button was");
 			game.gameHasStarted = true;
             game.startGame();
-			this.remove(x);
+			gameDeck.remove(x);
 			this.revalidate();
 			this.repaint();
 		

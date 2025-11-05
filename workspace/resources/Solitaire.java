@@ -74,6 +74,17 @@ public class Solitaire {
 		}
 	}
 
+	public void dealCards() {
+
+
+		hit(true);
+		hit(true);
+
+		
+		hit(false);
+		hit(false);
+
+	}
 
 	public boolean getPlayerWon() {
 		return playerWon;
@@ -126,6 +137,7 @@ public class Solitaire {
 
 	public void startGame() {
 		shuffleCards();
+		dealCards();
 
 
 	}
