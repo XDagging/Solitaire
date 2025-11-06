@@ -6,7 +6,7 @@ import javax.swing.border.Border;
 import java.util.ArrayList;
 import java.util.Stack;
 import org.w3c.dom.Text;
-
+import java.util.Queue;
 import resources.Card.Suit;
 
 import java.awt.*;
@@ -22,6 +22,11 @@ import java.security.DigestException;
 
 
 public class GUI extends JFrame implements ActionListener, MouseListener, MouseMotionListener{
+	JPanel dealerCards = new JPanel();
+	JPanel gameDeck = new JPanel();
+	JPanel playerCards = new JPanel();
+	JButton hitButton = new JButton("Hit");
+	JButton standButton = new JButton("Stand");
 
 	Solitaire game;
     public GUI(Solitaire game){
@@ -50,13 +55,19 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		background.setLayout(new BorderLayout());
 	   
 	    //dealer cards
+
+
    		Border dealerCardsBorder = BorderFactory.createLineBorder(Color.BLUE, 3);
-		JPanel dealerCards = new JPanel();
+		// JPanel dealerCards = new JPanel();
 		dealerCards.setPreferredSize(new Dimension(screenWidth, (int) (screenHeight*0.25)));
 		background.add(dealerCards, BorderLayout.NORTH);
 		dealerCards.add(new Card(4, Suit.Clubs));
 	   	dealerCards.setBorder(dealerCardsBorder);
 		dealerCards.add(new JLabel("Dealer's hand"));
+
+
+
+
 
 		//stack test example
 	   	Stack<Card> testDeck = new Stack<Card>();
@@ -68,7 +79,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 
 		//game deck
 		Border deckBorder = BorderFactory.createLineBorder(Color.GREEN, 3);
-		JPanel gameDeck = new JPanel();
+		
 		gameDeck.setPreferredSize(new Dimension(screenWidth, (int) (screenHeight*0.25)));
 		background.add(gameDeck, BorderLayout.WEST);
 		gameDeck.add(drawPile(testDeck)); //placeholder card
@@ -78,18 +89,18 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 
 	    //player cards
 		Border playerCardBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
-		JPanel playerCards = new JPanel();
+		
 		playerCards.setPreferredSize(new Dimension(screenWidth, (int) (screenHeight*0.25)));
 		background.add(playerCards, BorderLayout.SOUTH);
 		playerCards.add(new Card(4, Suit.Hearts));
 		playerCards.add(new JLabel("Your Cards"));
 
 		//hit and stand buttons
-		JButton hitButton = new JButton("Hit");
 
 	   	hitButton.addActionListener(e -> {
 			System.out.println("this button was clicked");
-			game.startGame();
+			game.hit(true);
+			update();
 		});
 
 		
@@ -97,7 +108,16 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		
 
 		playerCards.add(hitButton);
-	   	playerCards.add(new JButton("Stand"));
+
+
+		standButton.addActionListener(e -> {
+			System.out.println("This person is standing here");
+			game.stand();
+			update();
+		});
+
+	   	playerCards.add(standButton);
+		
 		
 		playerCards.setBorder(playerCardBorder);
 
@@ -116,6 +136,52 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 
        	this.setVisible(true);
     }
+
+	private void update(){
+		//rebuild screen
+	// 	JPanel dealerCards = new JPanel();
+	// JPanel gameDeck = new JPanel();
+	// JPanel playerCards = new JPanel();
+		
+		dealerCards.removeAll();
+		gameDeck.removeAll();
+		playerCards.removeAll();
+		for (int i=0; i<game.dealerHand.size(); i++) {
+			Card currentCard = game.dealerHand.get(i);
+			
+			dealerCards.add(currentCard);
+		}
+		
+
+		for (int k=0; k<game.playerHand.size(); k++) {
+			
+			Card currentCard = game.playerHand.get(k);
+			playerCards.add(currentCard);
+		}
+		Stack<Card> newDeck = new Stack();
+		Queue<Card> tempDeck = game.deck;
+		while (!tempDeck.isEmpty()) {
+			newDeck.push(tempDeck.poll());
+		}
+		
+		playerCards.add(standButton);
+		playerCards.add(hitButton);
+
+		gameDeck.add(drawPile(newDeck));
+		this.revalidate();
+		this.repaint();
+		
+
+
+
+
+		
+
+		
+
+
+
+	}
 
 	//draws a pile of cards based on a stack
 	public JLayeredPane drawPile(Stack<Card> stackIn) {
