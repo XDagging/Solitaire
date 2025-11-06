@@ -89,7 +89,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 
 	   	hitButton.addActionListener(e -> {
 			System.out.println("this button was clicked");
-			game.startGame();
+			game.hit();
 		});
 
 		
