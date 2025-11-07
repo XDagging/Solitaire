@@ -33,6 +33,7 @@ public class Solitaire {
 	// hit function
 	public void hit() {
 		Card newCard = deck.poll();	
+		System.out.println("we just added: " + newCard);
 		this.playerHand.add(newCard);
 	}
 
@@ -50,6 +51,7 @@ public class Solitaire {
 		for(int i = 0; i < 2; i++){
 			System.out.println("this was called dealCards");
 			Card newCard = deck.poll();
+			// System.out.println("deck is here", deck.isEmpty());
 			this.playerHand.add(newCard);
 			Card newCard2 = deck.poll();
 			this.dealerHand.add(newCard2);
@@ -88,6 +90,7 @@ public class Solitaire {
 		Collections.shuffle(allDeck);
 		deck.clear();
 		deck.addAll(allDeck);
+		System.out.println("this is the size of the deck: " + deck.size());
 	}
 
 	public void startGame() {
