@@ -100,7 +100,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 	   	hitButton.addActionListener(e -> {
 			System.out.println("this button was clicked");
 
-			//game.hit(true);
+			game.hit();
 			update();
 
 		});
@@ -131,8 +131,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 			game.gameHasStarted = true;
             game.startGame();
 			gameDeck.remove(x);
-			this.revalidate();
-			this.repaint();
+			this.update();
 		
 		});
 
@@ -158,8 +157,14 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		for (int k=0; k<game.playerHand.size(); k++) {
 			
 			Card currentCard = game.playerHand.get(k);
-			playerCards.add(currentCard);
+			System.out.println("current card: " + currentCard);
+			if (currentCard!=null) {
+				playerCards.add(currentCard);
+			}
+	
 		}
+
+
 		Stack<Card> newDeck = new Stack();
 		Queue<Card> tempDeck = game.deck;
 		while (!tempDeck.isEmpty()) {

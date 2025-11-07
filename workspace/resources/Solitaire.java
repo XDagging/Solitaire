@@ -48,6 +48,7 @@ public class Solitaire {
 
 	public void dealCards() {
 		for(int i = 0; i < 2; i++){
+			System.out.println("this was called dealCards");
 			Card newCard = deck.poll();
 			this.playerHand.add(newCard);
 			Card newCard2 = deck.poll();
@@ -92,10 +93,10 @@ public class Solitaire {
 	public void startGame() {
 		shuffleCards();
 		dealCards();
-		if(true){
-			hit();
-			check();
-		}
-		stand();
+		// if(true){
+		// 	hit();
+		// 	check();
+		// }
+		// stand();
 	}
 }
