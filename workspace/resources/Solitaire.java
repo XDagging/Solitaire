@@ -78,7 +78,7 @@ public class Solitaire {
 
 	void shuffleCards() {
 		// build a fresh list of 52 cards (ranks 1..13 for each suit)
-		ArrayList<Card> allDeck = new ArrayList<>(52);
+		LinkedList<Card> allDeck = new LinkedList();
 		for (int i = 1; i <= 13; i++) {
 			allDeck.add(new Card(i, Suit.Spades));
 			allDeck.add(new Card(i, Suit.Clubs));
@@ -88,11 +88,7 @@ public class Solitaire {
 
 		// shuffle and place into the deck queue
 		Collections.shuffle(allDeck);
-		deck.clear();
-		for (int k=0; k<allDeck.size(); k++) {
-			System.out.println("this is in the shuffle cards: " + allDeck.get(k));
-			deck.add(allDeck.get(k));
-		}
+		deck = allDeck;
 		// deck.addAll(allDeck);
 		System.out.println("this is the size of the deck: " + deck.size());
 	}

@@ -164,17 +164,22 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 	
 		}
 
+		Card deckCard = game.deck.poll();
+		deckCard.isReversed = true;
 
-		Stack<Card> newDeck = new Stack();
-		Queue<Card> tempDeck = game.deck;
-		while (!tempDeck.isEmpty()) {
-			newDeck.push(tempDeck.poll());
-		}
+
+		gameDeck.add(deckCard);
+
+		// Stack<Card> newDeck = new Stack();
+		// Queue<Card> tempDeck = game.deck;
+		// while (!tempDeck.isEmpty()) {
+		// 	newDeck.push(tempDeck.poll());
+		// }
 		
 		playerCards.add(standButton);
 		playerCards.add(hitButton);
 
-		gameDeck.add(drawPile(newDeck));
+		// gameDeck.add(drawPile(newDeck));
 		this.revalidate();
 		this.repaint();
 		
