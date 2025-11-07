@@ -157,7 +157,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		for (int k=0; k<game.playerHand.size(); k++) {
 			System.out.println(k);
 			Card currentCard = game.playerHand.get(k);
-			System.out.println("current card: " + game.playerHand.get(k));
+			// System.out.println("current card: " + game.playerHand.get(k));
 			if (currentCard!=null) {
 				playerCards.add(currentCard);
 			}

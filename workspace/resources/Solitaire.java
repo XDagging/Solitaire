@@ -89,7 +89,11 @@ public class Solitaire {
 		// shuffle and place into the deck queue
 		Collections.shuffle(allDeck);
 		deck.clear();
-		deck.addAll(allDeck);
+		for (int k=0; k<allDeck.size(); k++) {
+			System.out.println("this is in the shuffle cards: " + allDeck.get(k));
+			deck.add(allDeck.get(k));
+		}
+		// deck.addAll(allDeck);
 		System.out.println("this is the size of the deck: " + deck.size());
 	}
 
