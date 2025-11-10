@@ -175,7 +175,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		// while (!tempDeck.isEmpty()) {
 		// 	newDeck.push(tempDeck.poll());
 		// }
-		
+	// ]
 		playerCards.add(standButton);
 		playerCards.add(hitButton);
 
