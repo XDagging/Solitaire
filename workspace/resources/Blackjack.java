@@ -7,18 +7,16 @@ import java.util.LinkedList;
 
 import resources.Card.Suit;
 
-public class Solitaire {
+public class Blackjack {
 	// ArrayList<Stack <Card>> columns;
 	public Queue<Card> deck;
 	public ArrayList<Card> dealerHand;
 	public ArrayList<Card> playerHand;
-	private int playerHandValue;
-	private int dealerHandValue;
 	public boolean playerLost = false;
 	public boolean playerWon = false; 
 	public boolean gameHasStarted = false;
 
-	public Solitaire() {
+	public Blackjack() {
 		// initialize queues as linked lists
 		this.deck = new LinkedList<>();
 		this.dealerHand = new ArrayList<>();
@@ -34,10 +32,16 @@ public class Solitaire {
 				currValue = 10;
 			}
 			if(currValue == 1){
+				aces += 1;
 				currValue = 11;
 			}
 			totalValue += currValue;
 		}
+		while(totalValue > 21 && aces > 0){
+			totalValue -= 10;
+			aces -= 1;
+		}
+
 		return totalValue;
 	}
 
@@ -45,7 +49,6 @@ public class Solitaire {
 	public void hit() {
 		Card newCard = deck.poll();	
 		this.playerHand.add(newCard);
-		System.out.println("player curr value:" + (playerHandValue + newCard.value));
 	}
 
 	// checks if player has won or lost
@@ -60,6 +63,10 @@ public class Solitaire {
 				playerWon = true;
 			} else if (dealerValue == 21) {
 				playerLost = true;
+			} else if(dealerHand.size() > 2 && dealerValue > playerValue && dealerValue < 21){
+				playerLost = true;
+			} else if(dealerHand.size() > 2 && dealerValue < playerValue && playerValue < 21){
+				playerWon = true;
 			}
 		}
 
@@ -67,13 +74,11 @@ public class Solitaire {
 		for(int i = 0; i < 2; i++){
 			Card newCard = deck.poll();
 			this.playerHand.add(newCard);
-			playerHandValue += newCard.value;
 			Card newCard2 = deck.poll();
 			this.dealerHand.add(newCard2);
-			dealerHandValue += newCard2.value;
+			newCard2.hide();
 		}
-		System.out.println("dealer first value:" + (dealerHandValue));
-		System.out.println("player first value:" + (playerHandValue));
+
 		if(checkTotalValue(playerHand) == 21){
 			playerWon = true;
 		}
@@ -88,10 +93,14 @@ public class Solitaire {
 
 	// cues the dealer to start dealing themself
 	public void stand() {
+		for(int i = 0; i < dealerHand.size(); i++){
+			dealerHand.get(i).show();
+		}
 		while (checkTotalValue(this.dealerHand) <= 17) {
 			Card newCard = deck.poll();	
 			this.dealerHand.add(newCard);
 		}
+		check();
 	}
 
 	void shuffleCards() {

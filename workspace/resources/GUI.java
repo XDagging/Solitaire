@@ -30,8 +30,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 	JButton hitButton = new JButton("Hit");
 	JButton standButton = new JButton("Stand");
 
-	Solitaire game;
-    public GUI(Solitaire game){
+	Blackjack game;
+    public GUI(Blackjack game){
 	   this.game= game;
         //Create and set up the window.
 	   int screenWidth = 900;

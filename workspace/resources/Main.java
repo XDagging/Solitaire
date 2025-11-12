@@ -7,7 +7,7 @@ public class Main {
 	}
 
 	public static void restart() {
-		Solitaire game = new Solitaire();
+		Blackjack game = new Blackjack();
 		GUI gui = new GUI(game);
 	}
 }
