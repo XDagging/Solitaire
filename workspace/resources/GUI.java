@@ -25,6 +25,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 	JPanel dealerCards = new JPanel();
 	JPanel gameDeck = new JPanel();
 	JPanel playerCards = new JPanel();
+	JButton gameStart = new JButton("Click here to start the game");
+	JButton gameRestart = new JButton("Click here to restart the game");
 	JButton hitButton = new JButton("Hit");
 	JButton standButton = new JButton("Stand");
 
@@ -33,7 +35,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 	   this.game= game;
         //Create and set up the window.
 	   int screenWidth = 900;
-	   int screenHeight = 700;
+	   int screenHeight = 575;
        setTitle("Black Jack");
        setSize(screenWidth, screenHeight);
        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,143 +57,106 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		background.setLayout(new BorderLayout());
 	   
 	    //dealer cards
-
-
    		Border dealerCardsBorder = BorderFactory.createLineBorder(Color.BLUE, 3);
-		// JPanel dealerCards = new JPanel();
 		dealerCards.setPreferredSize(new Dimension(screenWidth, (int) (screenHeight*0.25)));
 		background.add(dealerCards, BorderLayout.NORTH);
-		dealerCards.add(new Card(4, Suit.Clubs));
 	   	dealerCards.setBorder(dealerCardsBorder);
+		dealerCards.setOpaque(false);
 		dealerCards.add(new JLabel("Dealer's hand"));
-
-
-
-
-
-		//stack test example
-	   	Stack<Card> testDeck = new Stack<Card>();
-		testDeck.add(new Card(1, Suit.Spades));
-		testDeck.add(new Card(2, Suit.Spades));
-		testDeck.add(new Card(3, Suit.Spades));
-		testDeck.add(new Card(4, Suit.Spades));
-		testDeck.add(new Card(5, Suit.Spades));
 
 		//game deck
 		Border deckBorder = BorderFactory.createLineBorder(Color.GREEN, 3);
-		
 		gameDeck.setPreferredSize(new Dimension(screenWidth, (int) (screenHeight*0.25)));
 		background.add(gameDeck, BorderLayout.WEST);
-		gameDeck.add(drawPile(testDeck)); //placeholder card
+		gameDeck.setOpaque(false);
 		gameDeck.setBorder(deckBorder);
-
-
 
 	    //player cards
 		Border playerCardBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
-		
 		playerCards.setPreferredSize(new Dimension(screenWidth, (int) (screenHeight*0.25)));
 		background.add(playerCards, BorderLayout.SOUTH);
-		playerCards.add(new Card(4, Suit.Hearts));
 		playerCards.add(new JLabel("Your Cards"));
+		playerCards.setOpaque(false);
+		playerCards.setBorder(playerCardBorder);
 
-		//hit and stand buttons
-
+		//hit button
+		playerCards.add(hitButton);
 	   	hitButton.addActionListener(e -> {
-			System.out.println("this button was clicked");
-
 			game.hit();
 			update();
-
 		});
 
-		
-
-		
-
-		playerCards.add(hitButton);
-
-
+		//stand button
+		playerCards.add(standButton);
 		standButton.addActionListener(e -> {
-			System.out.println("This person is standing here");
 			game.stand();
 			update();
 		});
-
-	   	playerCards.add(standButton);
-		
-		
-		playerCards.setBorder(playerCardBorder);
-
-	
-	   JButton x = new JButton("Click here to start the gane");
-		gameDeck.add(x);
-		x.addActionListener(e -> {
-		  	System.out.println("this button was");
+	   
+		//Game start button
+		gameDeck.add(gameStart);
+		gameStart.addActionListener(e -> {
 			game.gameHasStarted = true;
             game.startGame();
-			gameDeck.remove(x);
+			gameDeck.remove(gameStart);
 			this.update();
 		
 		});
+
+		gameRestart.addActionListener(e -> {
+			game.gameHasStarted = true;
+            game.startGame();
+			gameDeck.remove(gameRestart);
+			this.update();
+		
+		});
+
 
        	this.setVisible(true);
     }
 
 	private void update(){
-		//rebuild screen
-	// 	JPanel dealerCards = new JPanel();
-	// JPanel gameDeck = new JPanel();
-	// JPanel playerCards = new JPanel();
-		
+		//rebuild screen	
 		dealerCards.removeAll();
 		gameDeck.removeAll();
 		playerCards.removeAll();
-		for (int i=0; i<game.dealerHand.size(); i++) {
+
+		for (int i = 0; i < game.dealerHand.size(); i++) {
 			Card currentCard = game.dealerHand.get(i);
-			
-			dealerCards.add(currentCard);
+			if (currentCard != null) {
+				dealerCards.add(currentCard);
+			}
 		}
 		
-
-		for (int k=0; k<game.playerHand.size(); k++) {
-			System.out.println(k);
-			Card currentCard = game.playerHand.get(k);
-			// System.out.println("current card: " + game.playerHand.get(k));
-			if (currentCard!=null) {
+		for (int i = 0; i < game.playerHand.size(); i++) {
+			Card currentCard = game.playerHand.get(i);
+			if (currentCard != null) {
 				playerCards.add(currentCard);
 			}
-	
 		}
 
 		Card deckCard = game.deck.poll();
 		deckCard.isReversed = true;
-
-
 		gameDeck.add(deckCard);
 
-		// Stack<Card> newDeck = new Stack();
-		// Queue<Card> tempDeck = game.deck;
-		// while (!tempDeck.isEmpty()) {
-		// 	newDeck.push(tempDeck.poll());
-		// }
-	// ]
 		playerCards.add(standButton);
 		playerCards.add(hitButton);
 
-		// gameDeck.add(drawPile(newDeck));
+		//checks
+		game.check();
+
+		if(game.playerWon == true){
+			gameDeck.add(new JButton("You Won!"));
+			gameDeck.add(gameRestart);
+		}
+
+		if(game.playerLost == true){
+			gameDeck.add(new JButton("You Lost!"));
+			gameDeck.add(gameRestart);
+		}
+
 		this.revalidate();
 		this.repaint();
-		
-
-
-
-
-		
-
-		
-
-
 
 	}
 

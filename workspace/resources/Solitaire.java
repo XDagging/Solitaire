@@ -12,7 +12,8 @@ public class Solitaire {
 	public Queue<Card> deck;
 	public ArrayList<Card> dealerHand;
 	public ArrayList<Card> playerHand;
-	public boolean playerWon; 
+	public boolean playerLost = false;
+	public boolean playerWon = false; 
 	public boolean gameHasStarted = false;
 
 	public Solitaire() {
@@ -40,18 +41,21 @@ public class Solitaire {
 	// checks if player has won or lost
 	public void check() {
 		int playerValue = checkTotalValue(this.playerHand);
+		int dealerValue = checkTotalValue(this.dealerHand);
 			if (playerValue > 21) {
-				playerWon = false;
+				playerLost = true;
+			} else if (dealerValue > 21) {
+				playerWon = true;
 			} else if (playerValue == 21) {
 				playerWon = true;
+			} else if (dealerValue == 21) {
+				playerLost = true;
 			}
 		}
 
 	public void dealCards() {
 		for(int i = 0; i < 2; i++){
-			System.out.println("this was called dealCards");
 			Card newCard = deck.poll();
-			// System.out.println("deck is here", deck.isEmpty());
 			this.playerHand.add(newCard);
 			Card newCard2 = deck.poll();
 			this.dealerHand.add(newCard2);
@@ -60,7 +64,7 @@ public class Solitaire {
 			playerWon = true;
 		}
 		if(checkTotalValue(dealerHand) == 21){
-			playerWon = false;
+			playerLost = true;
 		}
 	}
 
@@ -85,21 +89,13 @@ public class Solitaire {
 			allDeck.add(new Card(i, Suit.Diamonds));
 			allDeck.add(new Card(i, Suit.Hearts));
 		}
-
 		// shuffle and place into the deck queue
 		Collections.shuffle(allDeck);
 		deck = allDeck;
-		// deck.addAll(allDeck);
-		System.out.println("this is the size of the deck: " + deck.size());
 	}
 
 	public void startGame() {
 		shuffleCards();
 		dealCards();
-		// if(true){
-		// 	hit();
-		// 	check();
-		// }
-		// stand();
 	}
 }
