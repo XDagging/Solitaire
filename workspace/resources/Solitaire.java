@@ -12,6 +12,8 @@ public class Solitaire {
 	public Queue<Card> deck;
 	public ArrayList<Card> dealerHand;
 	public ArrayList<Card> playerHand;
+	private int playerHandValue;
+	private int dealerHandValue;
 	public boolean playerLost = false;
 	public boolean playerWon = false; 
 	public boolean gameHasStarted = false;
@@ -25,8 +27,16 @@ public class Solitaire {
 
 	public int checkTotalValue(ArrayList<Card> x) {
 		int totalValue = 0;
+		int aces = 0;
 		for (int i = 0; i < x.size(); i++) {
-			totalValue += x.get(i).value;
+			int currValue = x.get(i).value;
+			if(currValue > 10){
+				currValue = 10;
+			}
+			if(currValue == 1){
+				currValue = 11;
+			}
+			totalValue += currValue;
 		}
 		return totalValue;
 	}
@@ -34,8 +44,8 @@ public class Solitaire {
 	// hit function
 	public void hit() {
 		Card newCard = deck.poll();	
-		System.out.println("we just added: " + newCard);
 		this.playerHand.add(newCard);
+		System.out.println("player curr value:" + (playerHandValue + newCard.value));
 	}
 
 	// checks if player has won or lost
@@ -57,9 +67,13 @@ public class Solitaire {
 		for(int i = 0; i < 2; i++){
 			Card newCard = deck.poll();
 			this.playerHand.add(newCard);
+			playerHandValue += newCard.value;
 			Card newCard2 = deck.poll();
 			this.dealerHand.add(newCard2);
+			dealerHandValue += newCard2.value;
 		}
+		System.out.println("dealer first value:" + (dealerHandValue));
+		System.out.println("player first value:" + (playerHandValue));
 		if(checkTotalValue(playerHand) == 21){
 			playerWon = true;
 		}

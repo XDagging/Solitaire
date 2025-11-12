@@ -104,10 +104,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 		});
 
 		gameRestart.addActionListener(e -> {
-			game.gameHasStarted = true;
-            game.startGame();
-			gameDeck.remove(gameRestart);
-			this.update();
+			this.dispose();
+			Main.restart();
 		
 		});
 

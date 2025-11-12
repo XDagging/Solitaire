@@ -67,9 +67,9 @@ public class Card extends JPanel{
 		 */
 		public static int valueInt(String value) {
 			
-			if(value.equals("J")) return 10;
-			if(value.equals("Q")) return 10;
-			if(value.equals("K")) return 10;
+			if(value.equals("J")) return 11;
+			if(value.equals("Q")) return 12;
+			if(value.equals("K")) return 13;
 			if(value.equals("A")) return 1;
 			
 			return Integer.parseInt(value);
