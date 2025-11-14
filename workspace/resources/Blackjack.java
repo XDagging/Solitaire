@@ -14,9 +14,7 @@ public class Blackjack {
 	public ArrayList<Card> playerHand;
 	public boolean playerLost = false;
 	public boolean playerWon = false; 
-	public boolean playerTied = false;
 	public boolean gameHasStarted = false;
-	public boolean standCalled = false;
 
 	public Blackjack() {
 		// initialize queues as linked lists
@@ -28,7 +26,6 @@ public class Blackjack {
 	public int checkTotalValue(ArrayList<Card> x) {
 		int totalValue = 0;
 		int aces = 0;
-		if(x.size() > 0 && x != null){
 		for (int i = 0; i < x.size(); i++) {
 			int currValue = x.get(i).value;
 			if(currValue > 10){
@@ -47,23 +44,17 @@ public class Blackjack {
 
 		return totalValue;
 	}
-	return 0;
-	}
 
 	// hit function
 	public void hit() {
-		if(dealerHand.size() == 2){
-			Card newCard = deck.poll();	
-			this.playerHand.add(newCard);
-		}
+		Card newCard = deck.poll();	
+		this.playerHand.add(newCard);
 	}
 
 	// checks if player has won or lost
 	public void check() {
 		int playerValue = checkTotalValue(this.playerHand);
 		int dealerValue = checkTotalValue(this.dealerHand);
-		System.out.println("Player Value: " + playerValue);
-		System.out.println("Dealer Value: " + dealerValue);
 			if (playerValue > 21) {
 				playerLost = true;
 			} else if (dealerValue > 21) {
@@ -72,28 +63,22 @@ public class Blackjack {
 				playerWon = true;
 			} else if (dealerValue == 21) {
 				playerLost = true;
-			} else if(standCalled && dealerValue > playerValue && dealerValue < 21){
+			} else if(dealerHand.size() > 2 && dealerValue > playerValue && dealerValue < 21){
 				playerLost = true;
-			} else if(standCalled && dealerValue < playerValue && playerValue < 21){
+			} else if(dealerHand.size() > 2 && dealerValue < playerValue && playerValue < 21){
 				playerWon = true;
-			} else if(standCalled && dealerValue == playerValue){
-				playerTied = true;
 			}
 		}
 
 	public void dealCards() {
-		Card playerCard1 = deck.poll();
-		this.playerHand.add(playerCard1);
-		Card playerCard2 = deck.poll();
-		this.playerHand.add(playerCard2);
-		Card dealerCard1 = deck.poll();
-		this.dealerHand.add(dealerCard1);
-		Card dealerCard2 = deck.poll();
-		this.dealerHand.add(dealerCard2);
-		dealerCard1.hide();
-		System.out.println("Dealer card 1: " + dealerCard1 + "Dealer card 2: " + dealerCard2 + "Player card 1: " + playerCard1 + "Player card 2: " + playerCard2);
-		System.out.println("PlayerHand: " + playerHand);
-		System.out.println("DealerHand: " + dealerHand);
+		for(int i = 0; i < 2; i++){
+			Card newCard = deck.poll();
+			this.playerHand.add(newCard);
+			Card newCard2 = deck.poll();
+			this.dealerHand.add(newCard2);
+			newCard2.hide();
+		}
+
 		if(checkTotalValue(playerHand) == 21){
 			playerWon = true;
 		}
@@ -108,25 +93,14 @@ public class Blackjack {
 
 	// cues the dealer to start dealing themself
 	public void stand() {
-		long timeStart = System.currentTimeMillis();
-		double secondsToAnimate = 0.5;
-		while((System.currentTimeMillis()-timeStart)/1000 < secondsToAnimate){
-			dealerHand.get(0).show();
+		for(int i = 0; i < dealerHand.size(); i++){
+			dealerHand.get(i).show();
 		}
 		while (checkTotalValue(this.dealerHand) <= 17) {
-			dealerHit();
-		}
-		standCalled = true;
-		check();
-	}
-
-	public void dealerHit(){
-		// long timeStart = System.currentTimeMillis();
-		// double secondsToAnimate = 0.5;
-		// while((System.currentTimeMillis() - timeStart)/1000 < secondsToAnimate){
 			Card newCard = deck.poll();	
 			this.dealerHand.add(newCard);
-		//}
+		}
+		check();
 	}
 
 	void shuffleCards() {
