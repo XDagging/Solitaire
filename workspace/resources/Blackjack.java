@@ -1,3 +1,4 @@
+//This class includes the game logic for blackjack
 package resources;
 import java.util.ArrayList;
 import java.util.Queue;
@@ -108,25 +109,13 @@ public class Blackjack {
 
 	// cues the dealer to start dealing themself
 	public void stand() {
-		long timeStart = System.currentTimeMillis();
-		double secondsToAnimate = 0.5;
-		while((System.currentTimeMillis()-timeStart)/1000 < secondsToAnimate){
-			dealerHand.get(0).show();
-		}
+		dealerHand.get(0).show();
 		while (checkTotalValue(this.dealerHand) <= 17) {
-			dealerHit();
+			Card newCard = deck.poll();	
+			this.dealerHand.add(newCard);
 		}
 		standCalled = true;
 		check();
-	}
-
-	public void dealerHit(){
-		// long timeStart = System.currentTimeMillis();
-		// double secondsToAnimate = 0.5;
-		// while((System.currentTimeMillis() - timeStart)/1000 < secondsToAnimate){
-			Card newCard = deck.poll();	
-			this.dealerHand.add(newCard);
-		//}
 	}
 
 	void shuffleCards() {

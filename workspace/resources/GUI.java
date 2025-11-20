@@ -1,3 +1,4 @@
+//This class includes the GUI, which is the interface the user interacts with
 package resources;
 import javax.imageio.ImageIO;
 import javax.swing.*;
