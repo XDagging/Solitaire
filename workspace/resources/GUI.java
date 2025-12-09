@@ -46,7 +46,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
        try {
 		System.out.println(getClass().toString());
 
-		Image blackImg = ImageIO.read(getClass().getResource("blackjackbackground.jpg"));
+		Image blackImg = ImageIO.read(getClass().getResource("background.jpg"));
 		background = new ImagePanel(blackImg);
 		setContentPane(background);
 
@@ -126,7 +126,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 				dealerCards.add(currentCard);
 			}
 		}
-
+		
 		for (int i = 0; i < game.playerHand.size(); i++) {
 			Card currentCard = game.playerHand.get(i);
 			if (currentCard != null) {
@@ -151,11 +151,6 @@ public class GUI extends JFrame implements ActionListener, MouseListener, MouseM
 
 		if(game.playerLost == true){
 			gameDeck.add(new JButton("You Lost!"));
-			gameDeck.add(gameRestart);
-		}
-
-		if(game.playerTied == true){
-			gameDeck.add(new JButton("You Tied!"));
 			gameDeck.add(gameRestart);
 		}
 
